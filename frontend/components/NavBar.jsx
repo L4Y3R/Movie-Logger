@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function NavBar() {
   return (
-    <div className="w-full h-14 bg-darkCyan flex items-center px-5 md:px-44 justify-between">
+    <div className="w-full h-14 bg-darkCyan flex items-center px-5 md:px-20 lg:px-44 justify-between">
       <div className="flex items-center md:gap-3">
         <Image
           src="/logo/affiliatetheme.svg"
