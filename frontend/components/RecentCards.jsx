@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export default function AllCards() {
+export default function RecentCards() {
   const cardData = [
     { date: "2024-03-02", title: "Interstellar", imageSrc: "/test/nolan.jpg" },
     { date: "2024-03-02", title: "Interstellar", imageSrc: "/test/nolan.jpg" },
