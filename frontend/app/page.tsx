@@ -9,17 +9,15 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 
-import Recents from "./recent/page";
-import All from "./all/page";
+import TVCards from "../components/TVCards";
+import MovieCards from "../components/MovieCards";
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
-  const [activeTab, setActiveTab] = useState<"recentlyAdded" | "allMovies">(
-    "recentlyAdded"
-  );
+  const [activeTab, setActiveTab] = useState<"movies" | "tv">("movies");
 
-  const handleTabClick = (tab: "recentlyAdded" | "allMovies") => {
+  const handleTabClick = (tab: "movies" | "tv") => {
     setActiveTab(tab);
   };
 
@@ -28,34 +26,34 @@ const Home: React.FC<HomeProps> = () => {
       <div className="flex justify-center gap-3">
         <div
           className={`flex gap-2 items-center cursor-pointer px-4 font-Montserrat font-medium py-2 mt-2 rounded-lg ${
-            activeTab === "recentlyAdded" ? "bg-darkCyan" : "text-gray-500"
+            activeTab === "movies" ? "bg-darkCyan" : "text-gray-500"
           }`}
-          onClick={() => handleTabClick("recentlyAdded")}>
+          onClick={() => handleTabClick("movies")}>
           <Image
-            src="icons/clock-solid.svg"
-            alt="recent ico"
+            src="icons/film-solid.svg"
+            alt="movie ico"
             width={15}
             height={15}
           />
-          Recent
+          Movies
         </div>
         <div
           className={`flex gap-2 items-center cursor-pointer px-4 font-Montserrat font-medium py-2 mt-2 rounded-lg ${
-            activeTab === "allMovies" ? "bg-darkCyan" : "text-gray-500"
+            activeTab === "tv" ? "bg-darkCyan" : "text-gray-500"
           }`}
-          onClick={() => handleTabClick("allMovies")}>
+          onClick={() => handleTabClick("tv")}>
           <Image
-            src="/icons/grip-solid.svg"
-            alt="all ico"
+            src="/icons/tv-solid.svg"
+            alt="tv ico"
             width={15}
             height={15}
           />
-          All
+          TV Series
         </div>
       </div>
 
-      {activeTab === "recentlyAdded" && <Recents />}
-      {activeTab === "allMovies" && <All />}
+      {activeTab === "movies" && <MovieCards />}
+      {activeTab === "tv" && <TVCards />}
 
       <div className="fixed right-8 bottom-16 md:right-20 z-10">
         <Dropdown>
