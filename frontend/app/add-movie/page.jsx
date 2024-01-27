@@ -63,7 +63,7 @@ function page() {
               {selectedFile ? (
                 <img
                   src={URL.createObjectURL(selectedFile)}
-                  alt="Poster Preview"
+                  alt="Poster"
                   className="w-full h-full object-cover rounded-md"
                 />
               ) : (
