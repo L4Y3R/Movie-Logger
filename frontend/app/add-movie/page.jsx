@@ -28,13 +28,13 @@ function page() {
           />
 
           <input
-            type="text"
+            type="number"
             className="w-full p-2 mb-4 rounded-xl text-sm font-thin"
             placeholder="Released Year"
           />
 
           <input
-            type="text"
+            type="number"
             className="w-20 p-2 mb-4 rounded-xl text-sm font-thin"
             placeholder="Runtime"
           />
