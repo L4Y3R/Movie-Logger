@@ -30,7 +30,7 @@ export default function MovieCards() {
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 gap-y-5 md:gap-y-10">
           {cardData.map((card, index) => (
-            <Link href="/info">
+            <Link href="/info-movie">
               <div
                 key={index}
                 className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-xl border-2 border-darkCyan transform hover:scale-105 transition-transform duration-300">

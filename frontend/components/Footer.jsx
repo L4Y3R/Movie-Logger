@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function Footer() {
   return (
-    <div className="w-full h-[150px] bg-darkCyan absolute b-0 flex-col">
+    <div className="w-full h-[150px] bg-darkCyan absolute flex-col">
       <div className="flex items-center justify-center mt-10 md:gap-3">
         <Image
           src="/logo/affiliatetheme.svg"
