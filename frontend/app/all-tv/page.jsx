@@ -39,7 +39,7 @@ export default function allTV() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 gap-y-5 md:gap-y-10">
-          {tv &&
+          {tv ? (
             tv.map((card, index) => (
               <Link href="/info-tv">
                 <div
@@ -61,7 +61,10 @@ export default function allTV() {
                   />
                 </div>
               </Link>
-            ))}
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </div>
     </>

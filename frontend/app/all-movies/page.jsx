@@ -38,7 +38,7 @@ export default function allMovies() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 gap-y-5 md:gap-y-10">
-          {movies &&
+          {movies ? (
             movies.map((card, index) => (
               <Link key={index} href="/info-movie">
                 <div className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-xl border-2 border-darkCyan transform hover:scale-105 transition-transform duration-300">
@@ -58,7 +58,10 @@ export default function allMovies() {
                   />
                 </div>
               </Link>
-            ))}
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </div>
     </>
