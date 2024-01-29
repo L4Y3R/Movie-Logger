@@ -45,7 +45,7 @@ export default function TVCards() {
                   key={index}
                   className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-xl border-2 border-darkCyan transform hover:scale-105 transition-transform duration-300">
                   <div className="bg-gradient-to-b rounded-t-xl from-slate-900 to-transparent absolute top-0 left-0 w-full h-full"></div>
-                  <h7 className="absolute top-2 left-2 text-white text-xs">
+                  <h7 className="absolute top-2 left-2  text-slate-500 text-xs">
                     {new Date(card.createdAt).toLocaleDateString()}
                   </h7>
                   <h3 className="absolute top-5 left-2 text-white">
