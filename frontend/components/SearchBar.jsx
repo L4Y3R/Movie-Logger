@@ -5,11 +5,10 @@ function SearchBar() {
     <div className="relative flex items-center justify-center">
       <input
         type="text"
-        placeholder="Search..."
-        className="mt-4 md:mt-0 rounded-xl text-xs font-light px-5 w-80 md:w-96 h-10 pr-10"
+        className="mt-4 md:mt-0 rounded-full text-xs font-light px-5 w-80 md:w-96 h-10 pr-10"
       />
 
-      <button className="absolute top-4 right-5 md:top-0 md:right-0 mt-2 mr-3">
+      <button className="absolute top-4 right-5 md:top-0 md:right-0 mt-2.5 mr-4">
         {" "}
         <svg
           className="w-5 h-5"

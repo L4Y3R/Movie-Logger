@@ -4,10 +4,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+
 import Search from "./SearchBar";
+import MovieDetail from "./MovieDetail";
 
 export default function MovieCards() {
   const [movies, setMovies] = useState(null);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -27,9 +30,17 @@ export default function MovieCards() {
     fetchMovies();
   }, []);
 
+  const handleMovieClick = (movie) => {
+    setSelectedMovie(movie);
+  };
+
+  const handleCloseDetail = () => {
+    setSelectedMovie(null);
+  };
+
   return (
     <>
-      <div className="min-h-screen mx-3 md:mx-10 lg:mx-32 my-3 mb-8 md:my-8 font-semibold text-2xl md:border-2 md:border-darkCyan px-2 py-4 md:px-10 md:py-8 rounded-2xl bg-gray-800">
+      <div className="min-h-screen mx-3 md:mx-10 lg:mx-32 my-3 mb-8 md:my-8 font-semibold text-2xl  px-2 py-4 md:px-10 md:py-8 rounded-3xl bg-gray-800">
         <div className="md:flex justify-center md:justify-between">
           <span className="text-4xl flex justify-center text-center">
             Recently Added Movies
@@ -40,31 +51,44 @@ export default function MovieCards() {
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 gap-y-5 md:gap-y-10">
           {movies ? (
             movies.slice(0, 12).map((card, index) => (
-              <Link href="/info-movie">
-                <div
-                  key={index}
-                  className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-xl border-2 border-darkCyan transform hover:scale-105 transition-transform duration-300">
-                  <div className="bg-gradient-to-b rounded-t-xl from-slate-900 to-transparent absolute top-0 left-0 w-full h-full"></div>
-                  <h6 className="absolute top-2 left-2 text-xs text-slate-500">
-                    {new Date(card.createdAt).toLocaleDateString()}
-                  </h6>
-                  <h3 className="absolute top-5 left-2 text-white">
-                    {card.title}
-                  </h3>
-                  <Image
-                    src={card.imageSrc}
-                    alt={`Card Image - ${index}`}
-                    className="w-full h-full object-cover rounded-xl"
-                    width={1000}
-                    height={1000}
-                  />
-                </div>
-              </Link>
+              <div
+                key={index}
+                onClick={() => handleMovieClick(card)}
+                className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-3xl transform hover:scale-105 transition-transform duration-300">
+                <div className="bg-gradient-to-b rounded-t-xl from-darkCyan to-transparent absolute top-0 left-0 w-full h-full"></div>
+                <h6 className="absolute top-2 left-2 text-xs text-slate-300 font-thin">
+                  {new Date(card.createdAt).toLocaleDateString()}
+                </h6>
+
+                <h3 className="absolute top-6 left-2 text-white">
+                  {card.title}
+                </h3>
+                <Image
+                  src="/test/nolan.jpg"
+                  alt={`Card Image - ${index}`}
+                  className="w-full h-full object-cover rounded-xl"
+                  width={1000}
+                  height={1000}
+                />
+              </div>
             ))
           ) : (
             <p>Loading...</p>
           )}
         </div>
+
+        {selectedMovie && (
+          <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="flex justify-end">
+              <button
+                className="rounded-full w-5 h-5 text-sm bg-slate-500 mr-5"
+                onClick={handleCloseDetail}>
+                X
+              </button>
+              <MovieDetail movie={selectedMovie} />
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex justify-center">
         <Link href="/all-movies">

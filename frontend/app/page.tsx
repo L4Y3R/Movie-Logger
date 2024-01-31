@@ -25,7 +25,7 @@ const Home: React.FC<HomeProps> = () => {
     <div>
       <div className="flex justify-center gap-3">
         <div
-          className={`flex gap-2 items-center cursor-pointer px-4 font-Montserrat font-medium py-2 mt-2 rounded-lg ${
+          className={`flex gap-2 items-center cursor-pointer px-4 font-Montserrat font-medium py-2 mt-2 rounded-3xl ${
             activeTab === "movies" ? "bg-darkCyan" : "text-gray-500"
           }`}
           onClick={() => handleTabClick("movies")}>
@@ -38,7 +38,7 @@ const Home: React.FC<HomeProps> = () => {
           Movies
         </div>
         <div
-          className={`flex gap-2 items-center cursor-pointer px-4 font-Montserrat font-medium py-2 mt-2 rounded-lg ${
+          className={`flex gap-2 items-center cursor-pointer px-4 font-Montserrat font-medium py-2 mt-2 rounded-3xl ${
             activeTab === "tv" ? "bg-darkCyan" : "text-gray-500"
           }`}
           onClick={() => handleTabClick("tv")}>
