@@ -79,13 +79,37 @@ export default function MovieCards() {
 
         {selectedMovie && (
           <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="flex justify-end">
-              <button
-                className="rounded-full w-5 h-5 text-sm bg-slate-500 mr-5"
-                onClick={handleCloseDetail}>
-                X
-              </button>
+            <div>
               <MovieDetail movie={selectedMovie} />
+              <div className="mt-2 flex items-center gap-5">
+                <button onClick={handleCloseDetail}>
+                  <Image
+                    src="/icons/close.svg"
+                    alt="close button"
+                    className="transform hover:scale-125 transition-transform duration-300"
+                    width={25}
+                    height={25}
+                  />
+                </button>
+                <button onClick={handleCloseDetail}>
+                  <Image
+                    src="/icons/edit.svg"
+                    alt="edit button"
+                    className="transform hover:scale-125 transition-transform duration-300"
+                    width={23}
+                    height={23}
+                  />
+                </button>
+                <button onClick={handleCloseDetail}>
+                  <Image
+                    src="/icons/delete.svg"
+                    alt="delete button"
+                    className="transform hover:scale-125 transition-transform duration-300 "
+                    width={20}
+                    height={20}
+                  />
+                </button>
+              </div>
             </div>
           </div>
         )}
