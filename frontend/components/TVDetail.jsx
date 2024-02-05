@@ -26,7 +26,7 @@ const TVDetail = ({ tv }) => {
         Season and Episode you watched:
         <span className="font-thin  ml-2">
           {" "}
-          {tv.season} {tv.episode}{" "}
+          S0{tv.season} E0{tv.episode}{" "}
         </span>
       </p>
       <p className="text-gray-300 mb-4 text-sm">

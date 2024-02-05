@@ -13,6 +13,8 @@ function page() {
   const [review, setReview] = useState("");
   const [error, setError] = useState(null);
 
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,6 +42,7 @@ function page() {
         setRuntime("");
         setReview("");
         setError(null);
+        setSuccessMessage("Movie successfully added!");
 
         console.log("New movie added", json);
       }
@@ -104,6 +107,10 @@ function page() {
             className="w-full p-2 h-12 mt-4 rounded-xl text-sm  bg-darkCyan hover:bg-teal-600">
             Add the movie
           </button>
+
+          {successMessage && (
+            <div className="text-green-400 mt-4">{successMessage}</div>
+          )}
 
           {error && (
             <div className="text-red-400 text-center font-thin mt-4">

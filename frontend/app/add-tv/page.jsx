@@ -16,6 +16,8 @@ function page() {
   const [review, setReview] = useState("");
   const [error, setError] = useState(null);
 
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -55,6 +57,7 @@ function page() {
         setEpisode("");
         setReview("");
         setError(null);
+        setSuccessMessage("TV Show successfully added!");
 
         console.log("New TV Show added", json);
       }
@@ -145,6 +148,10 @@ function page() {
             className="w-full p-2 h-12 mt-4 rounded-xl text-sm  bg-darkCyan hover:bg-teal-600">
             Add the TV Show
           </button>
+
+          {successMessage && (
+            <div className="text-green-400 mt-4">{successMessage}</div>
+          )}
         </form>
 
         {error && <div className="text-red-400"> {error} </div>}
