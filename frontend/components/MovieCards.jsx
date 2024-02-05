@@ -38,6 +38,35 @@ export default function MovieCards() {
     setSelectedMovie(null);
   };
 
+  const handleDelete = async () => {
+    if (selectedMovie) {
+      const isConfirmed = window.confirm(
+        "Are you sure you want to delete this movie?"
+      );
+
+      if (isConfirmed) {
+        const response = await fetch(
+          `http://localhost:4000/api/movies/${selectedMovie._id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        const json = await response.json();
+
+        if (!response.ok) {
+          console.error("Error deleting movie", json);
+        } else {
+          console.log("Movie deleted successfully", json);
+          setMovies((prevMovies) =>
+            prevMovies.filter((movie) => movie._id !== selectedMovie._id)
+          );
+          setSelectedMovie(null);
+        }
+      }
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen mx-3 md:mx-10 lg:mx-32 my-3 mb-8 md:my-8 font-semibold text-2xl  px-2 py-4 md:px-10 md:py-8 rounded-3xl bg-gray-800">
@@ -100,7 +129,7 @@ export default function MovieCards() {
                     height={23}
                   />
                 </button>
-                <button onClick={handleCloseDetail}>
+                <button onClick={handleDelete}>
                   <Image
                     src="/icons/delete.svg"
                     alt="delete button"
