@@ -31,6 +31,12 @@ export default function MovieCards() {
     fetchMovies();
   }, []);
 
+  useEffect(() => {
+    if (movies && movies.length > 0) {
+      console.log(movies[0].posterPath);
+    }
+  }, [movies]);
+
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
   };
@@ -91,12 +97,12 @@ export default function MovieCards() {
                   <h6 className="absolute top-2 left-2 text-xs text-slate-300 font-thin">
                     {new Date(card.createdAt).toLocaleDateString()}
                   </h6>
-
                   <h3 className="absolute top-6 left-2 text-white">
                     {card.title}
                   </h3>
+
                   <Image
-                    src="/test/nolan.jpg"
+                    src={card.posterPath}
                     alt={`Card Image - ${index}`}
                     className="w-full h-full object-cover rounded-xl"
                     width={1000}

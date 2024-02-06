@@ -1,6 +1,10 @@
 const Movie = require("../models/movieModel");
 const mongoose = require("mongoose");
 
+const fs = require("fs");
+const path = require("path");
+const uploadPath = path.join("public", Movie.moviePosterBasePath);
+
 //get all
 const getAllMovies = async (req, res) => {
   try {
@@ -27,29 +31,6 @@ const getOneMovie = async (req, res) => {
       return res.status(404).json({ error: "No such movie" });
     }
 
-    res.status(200).json(movie);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-    console.log(error);
-  }
-};
-
-// create movie
-const createMovie = async (req, res) => {
-  const { title, director, releaseYear, runtime, review } = req.body;
-
-  if (!title) {
-    return res.status(400).json({ error: "Please fill in the title" });
-  }
-
-  try {
-    const movie = await Movie.create({
-      title,
-      director,
-      releaseYear,
-      runtime,
-      review,
-    });
     res.status(200).json(movie);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -105,6 +86,11 @@ const deleteMovie = async (req, res) => {
       return res.status(404).json({ error: "No such movie" });
     }
 
+    if (movie.poster) {
+      console.log("Deleting Poster:", movie.poster);
+      removeBookCover(movie.poster);
+    }
+
     res.status(200).json(movie);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -112,10 +98,20 @@ const deleteMovie = async (req, res) => {
   }
 };
 
-module.exports = {
-  createMovie,
-  getAllMovies,
+function removeBookCover(fileName) {
+  const filePath = path.join(uploadPath, fileName);
+  console.log("Deleting file:", filePath);
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("File deleted successfully.");
+    }
+  });
+}
 
+module.exports = {
+  getAllMovies,
   getOneMovie,
   deleteMovie,
   updateMovie,
