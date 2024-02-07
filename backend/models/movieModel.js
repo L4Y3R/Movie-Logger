@@ -30,11 +30,5 @@ const movieSchema = new Schema(
   { timestamps: true }
 );
 
-movieSchema.virtual("posterPath").get(function () {
-  if (this.poster != null) {
-    return path.join("/", moviePosterBasePath, this.poster);
-  }
-});
-
 module.exports = mongoose.model("MoviesModel", movieSchema);
 module.exports.moviePosterBasePath = moviePosterBasePath;

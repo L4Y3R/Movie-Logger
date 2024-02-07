@@ -3,7 +3,15 @@ const mongoose = require("mongoose");
 
 const fs = require("fs");
 const path = require("path");
-const uploadPath = path.join("public", Movie.moviePosterBasePath);
+const uploadPath = path.join(
+  __dirname,
+  "..",
+  "..",
+  "frontend",
+  "public",
+  "uploads",
+  "moviePosters"
+);
 
 //get all
 const getAllMovies = async (req, res) => {

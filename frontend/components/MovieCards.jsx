@@ -102,7 +102,7 @@ export default function MovieCards() {
                   </h3>
 
                   <Image
-                    src={card.posterPath}
+                    src={`/uploads/moviePosters/${card.poster}`}
                     alt={`Card Image - ${index}`}
                     className="w-full h-full object-cover rounded-xl"
                     width={1000}

@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("path");
 
 const movieRouter = require("./routes/movies");
 const tvRouter = require("./routes/tv");
@@ -16,8 +15,6 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
-
-app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 //routes
 app.use("/api/movies", movieRouter);

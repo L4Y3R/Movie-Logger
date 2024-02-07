@@ -12,10 +12,26 @@ const {
 const fs = require("fs");
 const imageMimeTypes = ["image/jpeg", "image/jpg", "image/png"];
 const path = require("path");
-const uploadPath = path.join("public", Movie.moviePosterBasePath);
+
+const uploadPath = path.join(
+  __dirname,
+  "..",
+  "..",
+  "frontend",
+  "public",
+  "uploads",
+  "moviePosters"
+);
+
 const multer = require("multer");
+
 const upload = multer({
-  dest: uploadPath,
+  storage: multer.diskStorage({
+    destination: uploadPath,
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  }),
   fileFilter: (req, file, callback) => {
     callback(null, imageMimeTypes.includes(file.mimetype));
   },
