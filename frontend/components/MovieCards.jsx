@@ -4,13 +4,13 @@ import React from "react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-import Search from "./SearchBar";
 import MovieDetail from "./MovieDetail";
 
 export default function MovieCards() {
   const [movies, setMovies] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [showAllMovies, setShowAllMovies] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -23,7 +23,9 @@ export default function MovieCards() {
           setMovies(json);
         }
       } catch (error) {
-        console.error("Error fetching movies", error);
+        console.error("Error fetching tv shows", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -67,6 +69,20 @@ export default function MovieCards() {
     }
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredMovies = movies
+    ? movies.filter(
+        (movie) =>
+          movie.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          movie.director.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
   return (
     <>
       <div className="min-h-screen mx-3 md:mx-10 lg:mx-32 my-3 mb-8 md:my-8 font-semibold text-2xl  px-2 py-4 md:px-10 md:py-8 rounded-3xl bg-gray-800">
@@ -74,37 +90,46 @@ export default function MovieCards() {
           <span className="text-4xl flex justify-center text-center">
             Recently Added Movies
           </span>
-          <Search />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search by Title or Director"
+            className="p-2 px-3 w-96 rounded-full text-sm font-thin bg-gray-700 text-white"
+          />
         </div>
 
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 gap-y-5 md:gap-y-10">
-          {movies ? (
-            movies
-              .slice(0, showAllMovies ? movies.length : 12)
-              .map((card, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleMovieClick(card)}
-                  className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-3xl transform hover:scale-105 transition-transform duration-300">
-                  <div className="bg-gradient-to-b rounded-t-xl from-darkCyan to-transparent absolute top-0 left-0 w-full h-full"></div>
-                  <h6 className="absolute top-2 left-2 text-xs text-slate-300 font-thin">
-                    {new Date(card.createdAt).toLocaleDateString()}
-                  </h6>
-                  <h3 className="absolute top-6 left-2 text-white">
-                    {card.title}
-                  </h3>
-
-                  <Image
-                    src={`/uploads/moviePosters/${card.poster}`}
-                    alt={`Card Image - ${index}`}
-                    className="w-full h-full object-cover rounded-xl"
-                    width={1000}
-                    height={1000}
-                  />
-                </div>
-              ))
+        <div className="mt-10 flex justify-center items-center">
+          {loading ? (
+            <p className="mt-52 text-md font-thin">Loading...</p>
+          ) : filteredMovies.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 md:gap-16 gap-y-5 md:gap-y-10">
+              {filteredMovies
+                .slice(0, showAllMovies ? filteredMovies.length : 12)
+                .map((card, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleMovieClick(card)}
+                    className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-3xl transform hover:scale-105 transition-transform duration-300">
+                    <div className="bg-gradient-to-b rounded-t-xl from-darkCyan to-transparent absolute top-0 left-0 w-full h-full"></div>
+                    <h6 className="absolute top-2 left-2 text-xs text-slate-300 font-thin">
+                      {new Date(card.createdAt).toLocaleDateString()}
+                    </h6>
+                    <h3 className="absolute top-6 left-2 text-white">
+                      {card.title}
+                    </h3>
+                    <Image
+                      src={`/uploads/moviePosters/${card.poster}`}
+                      alt={`Card Image - ${index}`}
+                      className="w-full h-full object-cover rounded-xl"
+                      width={1000}
+                      height={1000}
+                    />
+                  </div>
+                ))}
+            </div>
           ) : (
-            <p>Loading...</p>
+            <p className="mt-52 text-md font-thin">No movies found :(</p>
           )}
         </div>
 
