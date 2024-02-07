@@ -1,6 +1,34 @@
 const Tv = require("../models/tvModel");
 const mongoose = require("mongoose");
 
+const fs = require("fs");
+const imageMimeTypes = ["image/jpeg", "image/jpg", "image/png"];
+const path = require("path");
+
+const uploadPath = path.join(
+  __dirname,
+  "..",
+  "..",
+  "frontend",
+  "public",
+  "uploads",
+  "tvPosters"
+);
+
+const multer = require("multer");
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: uploadPath,
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  }),
+  fileFilter: (req, file, callback) => {
+    callback(null, imageMimeTypes.includes(file.mimetype));
+  },
+});
+
 //get all
 const getAllTv = async (req, res) => {
   try {
@@ -36,6 +64,8 @@ const getOneTv = async (req, res) => {
 
 // create movie
 const createTv = async (req, res) => {
+  const fileName = req.file != null ? req.file.filename : null;
+
   const {
     title,
     creator,
@@ -48,7 +78,14 @@ const createTv = async (req, res) => {
   } = req.body;
 
   if (!title) {
+    if (fileName != null) {
+      removePoster(fileName);
+    }
     return res.status(400).json({ error: "Please fill in the title" });
+  }
+
+  if (!fileName) {
+    return res.status(400).json({ error: "Please upload a poster" });
   }
 
   try {
@@ -60,10 +97,15 @@ const createTv = async (req, res) => {
       seasons,
       season,
       episode,
+      poster: fileName,
       review,
     });
+
     res.status(200).json(tv);
   } catch (error) {
+    if (fileName != null) {
+      removePoster(fileName);
+    }
     res.status(400).json({ error: error.message });
     console.log(error);
   }
@@ -117,11 +159,28 @@ const deleteTv = async (req, res) => {
       return res.status(404).json({ error: "No such tv show" });
     }
 
+    if (tv.poster) {
+      console.log("Deleting Poster:", tv.poster);
+      removePoster(tv.poster);
+    }
+
     res.status(200).json(tv);
   } catch (error) {
     res.status(400).json({ error: error.message });
     console.log(error);
   }
 };
+
+function removePoster(fileName) {
+  const filePath = path.join(uploadPath, fileName);
+  console.log("Deleting file:", filePath);
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("File deleted successfully.");
+    }
+  });
+}
 
 module.exports = { createTv, getAllTv, getOneTv, deleteTv, updateTv };

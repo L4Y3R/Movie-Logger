@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import Search from "./SearchBar";
@@ -78,7 +77,7 @@ export default function MovieCards() {
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 gap-y-5 md:gap-y-10">
           {tv ? (
-            tv.slice(0, showAllTv ? tv.length : 12).map((card, index) => (
+            tv.slice(0, showAllTv ? movies.length : 12).map((card, index) => (
               <div
                 key={index}
                 onClick={() => handleTvClick(card)}
@@ -87,13 +86,13 @@ export default function MovieCards() {
                 <h6 className="absolute top-2 left-2 text-xs text-slate-300 font-thin">
                   {new Date(card.createdAt).toLocaleDateString()}
                 </h6>
-
                 <h3 className="absolute top-6 left-2 text-white">
                   {card.title}
                 </h3>
+
                 <Image
-                  src="/test/nolan.jpg"
-                  alt="poster"
+                  src={`/uploads/tvPosters/${card.poster}`}
+                  alt={`Card Image - ${index}`}
                   className="w-full h-full object-cover rounded-xl"
                   width={1000}
                   height={1000}
@@ -104,6 +103,7 @@ export default function MovieCards() {
             <p>Loading...</p>
           )}
         </div>
+
         {selectedTv && (
           <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
             <div>

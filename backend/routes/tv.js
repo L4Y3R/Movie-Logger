@@ -1,15 +1,48 @@
-const express = require('express')
-const router = express.Router()
-const {createTv, getAllTv, getOneTv, deleteTv, updateTv} = require('../controllers/tvController')
+const express = require("express");
+const router = express.Router();
+const {
+  createTv,
+  getAllTv,
+  getOneTv,
+  deleteTv,
+  updateTv,
+} = require("../controllers/tvController");
 
-router.get('/', getAllTv)
+const path = require("path");
+const imageMimeTypes = ["image/jpeg", "image/jpg", "image/png"];
 
-router.get('/:id', getOneTv)
+const uploadPath = path.join(
+  __dirname,
+  "..",
+  "..",
+  "frontend",
+  "public",
+  "uploads",
+  "tvPosters"
+);
 
-router.post('/', createTv)
+const multer = require("multer");
 
-router.patch('/:id', updateTv)
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: uploadPath,
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  }),
+  fileFilter: (req, file, callback) => {
+    callback(null, imageMimeTypes.includes(file.mimetype));
+  },
+});
 
-router.delete('/:id', deleteTv)
+router.get("/", getAllTv);
 
-module.exports =router
+router.get("/:id", getOneTv);
+
+router.post("/", upload.single("postertv"), createTv);
+
+router.patch("/:id", updateTv);
+
+router.delete("/:id", deleteTv);
+
+module.exports = router;

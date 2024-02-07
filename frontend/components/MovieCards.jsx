@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import Search from "./SearchBar";
@@ -30,12 +29,6 @@ export default function MovieCards() {
 
     fetchMovies();
   }, []);
-
-  useEffect(() => {
-    if (movies && movies.length > 0) {
-      console.log(movies[0].posterPath);
-    }
-  }, [movies]);
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);

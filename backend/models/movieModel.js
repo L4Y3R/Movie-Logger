@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const path = require("path");
 
 const moviePosterBasePath = "/uploads/moviePosters";
 
