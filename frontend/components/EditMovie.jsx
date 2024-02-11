@@ -7,7 +7,7 @@ function EditMovie({ movie, onSave, onCancel }) {
   const [editedReleaseYear, setEditedReleaseYear] = useState(movie.releaseYear);
   const [editedRuntime, setEditedRuntime] = useState(movie.runtime);
   const [editedReview, setEditedReview] = useState(movie.review);
-  const [editedPoster, setEditedPoster] = useState(null);
+  const [editedPoster, setEditedPoster] = useState("");
   const [error, setError] = useState(null);
 
   const handleSave = async () => {
@@ -20,11 +20,33 @@ function EditMovie({ movie, onSave, onCancel }) {
       poster: editedPoster,
     };
 
-    onSave(editedMovie);
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/movies/${movie._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editedMovie),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to update movie");
+      }
+
+      console.log("Movie updated successfully!");
+    } catch (error) {
+      console.error("Error updating movie:", error.message);
+      setError(error.message);
+    }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    console.log("Selected file:", file);
     setEditedPoster(file);
   };
 

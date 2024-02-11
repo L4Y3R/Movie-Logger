@@ -62,11 +62,16 @@ const updateMovie = async (req, res) => {
       }
     }
 
+    console.log("Received data:", req.body);
+    console.log("Constructed updateObject:", updateObject);
+
     const movie = await Movie.findByIdAndUpdate(
       { _id: id },
       { $set: updateObject },
       { new: true }
     );
+
+    console.log("Updated movie:", movie);
 
     if (!movie) {
       return res.status(404).json({ error: "No such movie" });
