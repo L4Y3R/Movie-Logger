@@ -6,7 +6,7 @@ const TVDetail = ({ tv }) => {
     <div className="bg-gray-800 p-8 rounded-3xl w-[500px]">
       <div className="flex justify-center mb-8">
         <Image
-          src="/test/nolan.jpg"
+          src={`/uploads/tvPosters/${tv.poster}`}
           alt="poster"
           className="object-cover rounded-xl h-72 w-52"
           width={1000}

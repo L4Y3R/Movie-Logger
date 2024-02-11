@@ -7,17 +7,15 @@ function EditMovie({ movie, onSave, onCancel }) {
   const [editedReleaseYear, setEditedReleaseYear] = useState(movie.releaseYear);
   const [editedRuntime, setEditedRuntime] = useState(movie.runtime);
   const [editedReview, setEditedReview] = useState(movie.review);
-  const [editedPoster, setEditedPoster] = useState("");
   const [error, setError] = useState(null);
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
     const editedMovie = {
       title: editedTitle,
       director: editedDirector,
       releaseYear: editedReleaseYear,
       runtime: editedRuntime,
       review: editedReview,
-      poster: editedPoster,
     };
 
     try {
@@ -33,21 +31,17 @@ function EditMovie({ movie, onSave, onCancel }) {
       );
 
       if (!response.ok) {
+        e.preventDefault();
         const data = await response.json();
         throw new Error(data.error || "Failed to update movie");
       }
 
       console.log("Movie updated successfully!");
     } catch (error) {
+      e.preventDefault();
       console.error("Error updating movie:", error.message);
       setError(error.message);
     }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    console.log("Selected file:", file);
-    setEditedPoster(file);
   };
 
   return (
@@ -86,7 +80,7 @@ function EditMovie({ movie, onSave, onCancel }) {
                   type="number"
                   value={editedRuntime}
                   onChange={(e) => setEditedRuntime(e.target.value)}
-                  className="w-full p-2 mb-4 rounded-xl text-sm font-thin"
+                  className="w-16 p-2 mb-4 rounded-xl text-sm font-thin"
                   placeholder="Runtime"
                 />
                 <span className="ml-2 font-normal text-sm"> Hours </span>
@@ -100,28 +94,13 @@ function EditMovie({ movie, onSave, onCancel }) {
                 />
               </div>
               <div className="w-[350px]">
-                <label htmlFor="poster" className="relative cursor-pointer">
-                  {editedPoster ? (
-                    <img
-                      src={URL.createObjectURL(editedPoster)}
-                      alt="Edited Poster"
-                      className="w-full h-full object-cover rounded-xl"
-                    />
-                  ) : (
-                    <Image
-                      src={`/uploads/moviePosters/${movie.poster}`}
-                      alt="Existing Poster"
-                      className="w-full h-full object-cover rounded-xl"
-                      width={1000}
-                      height={1000}
-                    />
-                  )}
-                  <input
-                    type="file"
-                    id="poster"
-                    accept="image/jpeg, image/jpg, image/png"
-                    onChange={handleFileChange}
-                    className="hidden"
+                <label htmlFor="poster" className="relative">
+                  <Image
+                    src={`/uploads/moviePosters/${movie.poster}`}
+                    alt="Existing Poster"
+                    className="w-full h-full object-cover rounded-xl"
+                    width={1000}
+                    height={1000}
                   />
                 </label>
               </div>

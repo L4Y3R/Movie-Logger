@@ -109,13 +109,13 @@ export default function MovieCards() {
           />
         </div>
 
-        <div className="mt-10 flex justify-center items-center">
+        <div className="mt-16 flex justify-center items-center">
           {loading ? (
             <p className="mt-52 text-md font-thin">Loading...</p>
           ) : editMode ? (
             <EditMovie movie={selectedMovie} onCancel={handleCancelEdit} />
           ) : filteredMovies.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 md:gap-16 gap-y-5 md:gap-y-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-16 gap-y-5 md:gap-y-10">
               {filteredMovies
                 .slice(0, showAllMovies ? filteredMovies.length : 12)
                 .map((card, index) => (
@@ -123,7 +123,7 @@ export default function MovieCards() {
                     key={index}
                     onClick={() => handleMovieClick(card)}
                     className="bg-slate-200 h-62 w-40 md:h-64 md:w-44 lg:h-80 lg:w-52 rounded-3xl transform hover:scale-105 transition-transform duration-300">
-                    <div className="bg-gradient-to-b rounded-t-xl from-darkCyan to-transparent absolute top-0 left-0 w-full h-full"></div>
+                    <div className="bg-gradient-to-b rounded-t-xl  absolute top-0 left-0 w-full h-full"></div>
                     <h6 className="absolute top-2 left-2 text-xs text-slate-300 font-thin">
                       {new Date(card.createdAt).toLocaleDateString()}
                     </h6>
