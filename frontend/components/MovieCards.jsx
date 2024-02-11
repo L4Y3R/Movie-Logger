@@ -5,12 +5,14 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 
 import MovieDetail from "./MovieDetail";
+import EditMovie from "./EditMovie";
 
 export default function MovieCards() {
   const [movies, setMovies] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [showAllMovies, setShowAllMovies] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -69,6 +71,45 @@ export default function MovieCards() {
     }
   };
 
+  const handleEditDetail = () => {
+    setEditMode(true);
+  };
+
+  const handleSaveEdit = async (editedMovie) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/movies/${selectedMovie._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editedMovie),
+        }
+      );
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        console.error("Error updating movie details", json);
+      } else {
+        setMovies((prevMovies) =>
+          prevMovies.map((movie) =>
+            movie._id === selectedMovie._id ? editedMovie : movie
+          )
+        );
+        setSelectedMovie(null);
+        setEditMode(false);
+      }
+    } catch (error) {
+      console.error("Error updating movie details", error);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditMode(false);
+  };
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e) => {
@@ -102,6 +143,12 @@ export default function MovieCards() {
         <div className="mt-10 flex justify-center items-center">
           {loading ? (
             <p className="mt-52 text-md font-thin">Loading...</p>
+          ) : editMode ? (
+            <EditMovie
+              movie={selectedMovie}
+              onSave={handleSaveEdit}
+              onCancel={handleCancelEdit}
+            />
           ) : filteredMovies.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 md:gap-16 gap-y-5 md:gap-y-10">
               {filteredMovies
@@ -133,7 +180,7 @@ export default function MovieCards() {
           )}
         </div>
 
-        {selectedMovie && (
+        {selectedMovie && !editMode && (
           <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
             <div>
               <MovieDetail movie={selectedMovie} />
@@ -147,7 +194,7 @@ export default function MovieCards() {
                     height={25}
                   />
                 </button>
-                <button onClick={handleCloseDetail}>
+                <button onClick={handleEditDetail}>
                   <Image
                     src="/icons/edit.svg"
                     alt="edit button"
