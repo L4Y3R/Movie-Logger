@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-
+import { useAuthContext } from "../hooks/useAuthContext";
 function EditMovie({ tv, onSave, onCancel }) {
   const [editedTitle, setEditedTitle] = useState(tv.title);
   const [editedCreator, setEditedCreator] = useState(tv.creator);
@@ -11,8 +11,13 @@ function EditMovie({ tv, onSave, onCancel }) {
   const [editedEpisode, setEditedEpisode] = useState(tv.episode);
   const [editedReview, setEditedReview] = useState(tv.review);
   const [error, setError] = useState(null);
+  const { user } = useAuthContext();
 
   const handleSave = async (e) => {
+    if (!user) {
+      setError("Log in to edit");
+      return;
+    }
     const editedTv = {
       title: editedTitle,
       creator: editedCreator,
@@ -29,6 +34,7 @@ function EditMovie({ tv, onSave, onCancel }) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify(editedTv),
       });

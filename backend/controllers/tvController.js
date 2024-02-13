@@ -31,8 +31,9 @@ const upload = multer({
 
 //get all
 const getAllTv = async (req, res) => {
+  const user_id = req.user._id;
   try {
-    const tv = await Tv.find({}).sort({ createdAt: -1 });
+    const tv = await Tv.find({ user_id }).sort({ createdAt: -1 });
     res.status(200).json(tv);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -89,6 +90,7 @@ const createTv = async (req, res) => {
   }
 
   try {
+    const user_id = req.user._id;
     const tv = await Tv.create({
       title,
       creator,
@@ -99,6 +101,7 @@ const createTv = async (req, res) => {
       episode,
       poster: fileName,
       review,
+      user_id,
     });
 
     res.status(200).json(tv);

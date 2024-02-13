@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const requireAuth = require("../middleware/requireAuth");
 const {
   createTv,
   getAllTv,
@@ -34,6 +35,8 @@ const upload = multer({
     callback(null, imageMimeTypes.includes(file.mimetype));
   },
 });
+
+router.use(requireAuth);
 
 router.get("/", getAllTv);
 

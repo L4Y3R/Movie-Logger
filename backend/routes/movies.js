@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Movie = require("../models/movieModel");
+const requireAuth = require("../middleware/requireAuth");
 
 const {
   getAllMovies,
@@ -37,6 +38,8 @@ const upload = multer({
   },
 });
 
+router.use(requireAuth);
+
 router.get("/", getAllMovies);
 
 router.get("/:id", getOneMovie);
@@ -57,6 +60,7 @@ router.post("/", upload.single("poster"), async (req, res) => {
   }
 
   try {
+    const user_id = req.user._id;
     const movie = await Movie.create({
       title,
       director,
@@ -64,6 +68,7 @@ router.post("/", upload.single("poster"), async (req, res) => {
       runtime,
       poster: fileName,
       review,
+      user_id,
     });
     res.status(200).json(movie);
   } catch (error) {

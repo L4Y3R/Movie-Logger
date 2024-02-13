@@ -15,8 +15,9 @@ const uploadPath = path.join(
 
 //get all
 const getAllMovies = async (req, res) => {
+  const user_id = req.user._id;
   try {
-    const movie = await Movie.find({}).sort({ createdAt: -1 });
+    const movie = await Movie.find({ user_id }).sort({ createdAt: -1 });
     res.status(200).json(movie);
   } catch (error) {
     res.status(400).json({ error: error.message });

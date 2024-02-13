@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useState } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 function page() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -12,9 +13,15 @@ function page() {
   const [review, setReview] = useState("");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      setError("Log in to add a TV Show");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("poster", selectedFile);
@@ -27,6 +34,9 @@ function page() {
     const response = await fetch("http://localhost:4000/api/movies", {
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
 
     try {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
+import { AuthContextProvider } from "../context/AuthContext";
 
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -15,14 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body>
-        <Providers>
-          <Navbar />
-          {children}
-          <Footer />
-        </Providers>
-      </body>
-    </html>
+    <AuthContextProvider>
+      <html lang="en" className="dark">
+        <body>
+          <Providers>
+            <Navbar />
+            {children}
+            <Footer />
+          </Providers>
+        </body>
+      </html>
+    </AuthContextProvider>
   );
 }

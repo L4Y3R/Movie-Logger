@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 import MovieDetail from "./MovieDetail";
 import EditMovie from "./EditMovie";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function MovieCards() {
   const [movies, setMovies] = useState(null);
@@ -13,11 +14,16 @@ export default function MovieCards() {
   const [showAllMovies, setShowAllMovies] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/movies");
+        const response = await fetch("http://localhost:4000/api/movies", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const json = await response.json();
         console.log("Received Data", json);
 
@@ -31,8 +37,10 @@ export default function MovieCards() {
       }
     };
 
-    fetchMovies();
-  }, []);
+    if (user) {
+      fetchMovies();
+    }
+  }, [user]);
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
@@ -53,6 +61,9 @@ export default function MovieCards() {
           `http://localhost:4000/api/movies/${selectedMovie._id}`,
           {
             method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
           }
         );
 

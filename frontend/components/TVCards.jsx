@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 import TVDetail from "./TVDetail";
 import EditTv from "./EditTv";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function MovieCards() {
   const [tv, setTv] = useState([]);
@@ -13,11 +14,16 @@ export default function MovieCards() {
   const [showAllTv, setShowAllTv] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchTv = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/tv");
+        const response = await fetch("http://localhost:4000/api/tv", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const json = await response.json();
         console.log("Received Data", json);
 
@@ -31,8 +37,10 @@ export default function MovieCards() {
       }
     };
 
-    fetchTv();
-  }, []);
+    if (user) {
+      fetchTv();
+    }
+  }, [user]);
 
   const handleTvClick = (tv) => {
     setSelectedTv(tv);
@@ -53,6 +61,9 @@ export default function MovieCards() {
           `http://localhost:4000/api/tv/${selectedTv._id}`,
           {
             method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
           }
         );
 
