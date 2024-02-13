@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const MovieDetail = ({ movie }) => {
   return (
-    <div className="bg-gray-800 p-8 rounded-3xl w-[500px] relative overflow-hidden">
+    <div className="bg-gray-800 p-8 rounded-3xl w-[500px] relative overflow-hidden mt-16">
       <div className="flex justify-center mb-8">
         <Image
           src={`/uploads/moviePosters/${movie.poster}`}
