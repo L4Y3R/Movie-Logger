@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const TVDetail = ({ tv }) => {
   return (
-    <div className="bg-gray-800 p-8 rounded-3xl w-[500px] mt-16">
+    <div className="bg-gray-800 p-8 rounded-3xl w-96 md:w-[500px] mt-16">
       <div className="flex justify-center mb-8">
         <Image
           src={`/uploads/tvPosters/${tv.poster}`}
