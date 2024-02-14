@@ -69,7 +69,7 @@ function page() {
   };
 
   return (
-    <div className="mx-3 md:mx-10 lg:mx-32 my-3 mb-8 md:my-8 font-semibold md:border-2 md:border-darkCyan px-2 py-4 md:px-10 md:py-8 rounded-2xl bg-gray-800">
+    <div className="mx-3 md:mx-10 lg:mx-32 my-3 mb-8 md:my-8 font-semibold md:border-2 md:border-darkCyan px-2 py-4 md:px-10 md:py-8 rounded-2xl bg-gray-800 h-screen">
       <span className="text-3xl">Add a Movie</span>
 
       <div className="flex justify-center">
@@ -77,8 +77,31 @@ function page() {
           className="mt-8"
           onSubmit={handleSubmit}
           encType="multipart/form-data">
+          <div className="w-[350px] lg:hidden flex justify-center ml-0 md:ml-6 mb-6">
+            <label htmlFor="poster" className="relative cursor-pointer">
+              <input
+                type="file"
+                id="poster"
+                accept="image/jpeg, image/jpg, image/png"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <div className="w-[200px] h-[300px] p-2 mb-4 rounded-xl text-sm font-thin border-dashed border-2 border-gray-300 flex items-center justify-center cursor-pointer">
+                {selectedFile ? (
+                  <img
+                    src={URL.createObjectURL(selectedFile)}
+                    alt="Poster"
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                ) : (
+                  <p className="text-gray-500">Click to upload poster</p>
+                )}
+              </div>
+            </label>
+          </div>
+
           <div className="flex justify-between gap-20">
-            <div className="w-[400px]">
+            <div className="w-[340px] md:w-[400px]">
               <input
                 type="text"
                 onChange={(e) => setTitle(e.target.value)}
@@ -127,7 +150,7 @@ function page() {
               </button>
             </div>
 
-            <div className="w-[250px]">
+            <div className="w-[250px] hidden lg:flex">
               <label htmlFor="poster" className="relative cursor-pointer">
                 <input
                   type="file"
@@ -136,7 +159,7 @@ function page() {
                   onChange={handleFileChange}
                   className="hidden"
                 />
-                <div className="w-full h-full p-2 mb-4 rounded-xl text-sm font-thin border-dashed border-2 border-gray-300 flex items-center justify-center cursor-pointer">
+                <div className="w-[300px] h-full p-2 mb-4 rounded-xl text-sm font-thin border-dashed border-2 border-gray-300 flex items-center justify-center cursor-pointer">
                   {selectedFile ? (
                     <img
                       src={URL.createObjectURL(selectedFile)}

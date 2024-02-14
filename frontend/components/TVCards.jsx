@@ -125,7 +125,7 @@ export default function MovieCards() {
           ) : editMode ? (
             <EditTv tv={selectedTv} onCancel={handleCancelEdit} />
           ) : filteredtv.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-16 gap-y-5 md:gap-y-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-12 gap-y-5 md:gap-y-10">
               {filteredtv
                 .slice(0, showAllTv ? filteredtv.length : 12)
                 .map((card, index) => (

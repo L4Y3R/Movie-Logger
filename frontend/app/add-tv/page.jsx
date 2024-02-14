@@ -76,7 +76,7 @@ function page() {
     setSelectedFile(file);
   };
   return (
-    <div className="mx-3 md:mx-10 lg:mx-32 my-3 mb-8 md:my-8 font-semibold md:border-2 md:border-darkCyan px-2 py-4 md:px-10 md:py-8 rounded-2xl bg-gray-800">
+    <div className="mx-4 md:mx-20 my-10 font-semibold md:border-2 md:border-darkCyan px-5 py-4 md:px-10 md:py-8 rounded-2xl bg-gray-800">
       <span className="text-3xl">Add a Movie</span>
 
       <div className="flex justify-center">
@@ -84,8 +84,31 @@ function page() {
           className="mt-8"
           onSubmit={handleSubmit}
           encType="multipart/form-data">
-          <div className="flex justify-between gap-20">
-            <div className="w-[400px]">
+          <div className="w-[300px] lg:hidden flex justify-center ml-6 md:ml-16 mb-6">
+            <label htmlFor="poster" className="relative cursor-pointer">
+              <input
+                type="file"
+                id="poster"
+                accept="image/jpeg, image/jpg, image/png"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <div className="w-[200px] h-[300px] p-2 mb-4 rounded-xl text-sm font-thin border-dashed border-2 border-gray-300 flex items-center justify-center cursor-pointer">
+                {selectedFile ? (
+                  <img
+                    src={URL.createObjectURL(selectedFile)}
+                    alt="Poster"
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                ) : (
+                  <p className="text-gray-500">Click to upload poster</p>
+                )}
+              </div>
+            </label>
+          </div>
+
+          <div className="flex justify-between gap-10">
+            <div className="w-[340px] md:w-[400px]">
               <input
                 type="text"
                 onChange={(e) => setTitle(e.target.value)}
@@ -102,12 +125,12 @@ function page() {
                 placeholder="Creator"
               />
 
-              <div className="flex gap-5 justify-between">
+              <div className="flex gap-2 md:gap-5 justify-between">
                 <input
                   type="number"
                   onChange={(e) => setFirstRelease(e.target.value)}
                   value={firstRelease}
-                  className="w-48 p-2 mb-4 rounded-xl text-sm font-thin"
+                  className="w-44 md:w-48 p-2 mb-4 rounded-xl text-sm font-thin"
                   placeholder="First Released Year"
                 />
 
@@ -115,7 +138,7 @@ function page() {
                   type="number"
                   onChange={(e) => setLastRelease(e.target.value)}
                   value={lastRelease}
-                  className="w-48 p-2 mb-4 rounded-xl text-sm font-thin"
+                  className="w-44 md:w-48 p-2 mb-4 rounded-xl text-sm font-thin"
                   placeholder="Last Released Year"
                 />
               </div>
@@ -127,7 +150,7 @@ function page() {
                 placeholder="Number of total seasons"
               />
 
-              <div className="flex gap-5 justify-between">
+              <div className="flex gap-2 md:gap-5 justify-between">
                 <input
                   type="number"
                   onChange={(e) => setSeason(e.target.value)}
@@ -160,7 +183,7 @@ function page() {
               </button>
             </div>
 
-            <div className="w-[300px]">
+            <div className="w-[300px] hidden lg:flex">
               <label htmlFor="poster" className="relative cursor-pointer">
                 <input
                   type="file"
@@ -169,7 +192,7 @@ function page() {
                   onChange={handleFileChange}
                   className="hidden"
                 />
-                <div className="w-full h-full p-2 mb-4 rounded-xl text-sm font-thin border-dashed border-2 border-gray-300 flex items-center justify-center cursor-pointer">
+                <div className="w-[350px] h-full p-2 mb-4 rounded-xl text-sm font-thin border-dashed border-2 border-gray-300 flex items-center justify-center cursor-pointer">
                   {selectedFile ? (
                     <img
                       src={URL.createObjectURL(selectedFile)}
